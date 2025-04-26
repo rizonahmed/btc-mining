@@ -18,7 +18,7 @@ const WithdrawDetails = () => {
   };
 
   return (
-    <div className="pb-28 bg-[#181D30] z-[9999] relative text-white flex flex-col items-center px-4 pt-6">
+    <div className="pb-28 min-h-screen bg-[#181D30] z-[9999] relative text-white flex flex-col items-center px-4 pt-6">
       {/* Top Back Button */}
       <div className="w-full flex items-center">
         <button className="text-white text-2xl">

@@ -1,6 +1,6 @@
 import { FiArrowLeft, FiChevronDown, FiCheck, FiX } from 'react-icons/fi';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation
+import { Link, useNavigate } from 'react-router-dom'; // For navigation
 import selectbg from '../../assets/selectbg.png';
 import select from '../../assets/select.png';
 import speed from '../../assets/Speed.png';
@@ -36,7 +36,9 @@ const Payment = () => {
             {/* Header */}
             <div className="flex items-center mb-6">
                 <button className="text-white text-2xl">
-                    <img className='mt-1' src={leave} alt="" />
+                 <Link to='/wallet'>
+                 <img className='mt-1' src={leave} alt="" />
+                 </Link>
                 </button>
                 <h1 className="flex-1 text-center text-xl">Withdraw</h1>
             </div>

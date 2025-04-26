@@ -2,15 +2,15 @@ import { useState } from 'react';
 import btc from '../../assets/cryptocurrency-color_btc.png';
 import historyImage from '../../assets/wdhistory.png';
 import bitcoinwd from '../../assets/bitcoin-withdraw.png';
-import recommendedIcon from '../../assets/recomended.png'; // Import your recommended icon
+import recommendedIcon from '../../assets/recomended.png';
 import { FiX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-
+ 
 const Wallet = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedNetwork, setSelectedNetwork] = useState('');
-    const navigate = useNavigate(); // hook for routing
-
+    const [history, setHistory] = useState([]); // Initially no history
+    const navigate = useNavigate();
 
     const networks = [
         { name: 'Lighting', range: '0.0000002-0.00045 BTC', recommended: true },
@@ -45,14 +45,36 @@ const Wallet = () => {
             {/* Withdraw history */}
             <div className="flex-1 p-6 pb-24">
                 <h3 className="text-2xl text-gray-200 mb-8 text-left">Withdraw history</h3>
-                <img src={historyImage} alt="History" className="pt-4 mx-auto mb-6" />
+
+                {/* If history is empty show default */}
+                {history.length === 0 ? (
+                    <img src={historyImage} alt="No History" className="pt-4 mx-auto mb-6" />
+                ) : (
+                    <div className="space-y-4">
+                        {history.map((item, index) => (
+                            <div key={index} className="bg-[#22273A] rounded-2xl p-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <img src={btc} alt="BTC" className="w-10 h-10" />
+                                    <div>
+                                        <div className="text-gray-200 text-lg font-semibold">{item.amount} BTC</div>
+                                        <div className="text-sm text-gray-400">{item.date}</div>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-gray-400 text-sm">Withdrawal time</div>
+                                    <div className="text-gray-300 text-sm">{item.time}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Withdraw Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-xs bg-opacity-50 flex items-center justify-center p-4 z-50">
                     <div className="bg-[#181D30] rounded-2xl p-6 w-full max-w-md relative border border-gray-700">
-                        {/* Close button (X icon) */}
+                        {/* Close button */}
                         <button
                             onClick={() => setShowModal(false)}
                             className="absolute bg-[#2D3349] p-1 rounded-lg top-4 right-4 text-gray-400 hover:text-white"
@@ -60,7 +82,7 @@ const Wallet = () => {
                             <FiX size={24} />
                         </button>
 
-                        <h2 className="text-xl font-semibold -mt-2 mb-6 ">Select a network</h2>
+                        <h2 className="text-xl font-semibold -mt-2 mb-6">Select a network</h2>
 
                         <div className="space-y-3">
                             {networks.map((network) => (
@@ -73,8 +95,8 @@ const Wallet = () => {
                                     }}
                                     className={`py-4 px-2 rounded-xl cursor-pointer transition-all flex items-center justify-between ${selectedNetwork === network.name
                                             ? "bg-[#2C89FF] bg-opacity-20 border border-[#2C89FF]"
-                                            : "bg-[#22273A] hover:bg-[#2A3042] border border-[#2E3447]"
-                                        }`}
+                                            : "bg-[#22273A] hover:bg-[#2A3042] border border-[#2E3447]"}`
+                                    }
                                 >
                                     <div>
                                         <div className="flex items-center relative">
@@ -89,8 +111,6 @@ const Wallet = () => {
                                         </div>
                                         <span className="text-lg text-gray-400">{network.range}</span>
                                     </div>
-
-                                    {/* Right Arrow Icon */}
                                     <span className="text-white text-2xl font-light">{`>`}</span>
                                 </div>
                             ))}
